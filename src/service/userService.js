@@ -1,7 +1,7 @@
 import mysql from 'mysql2/promise'
 import bcrypt from 'bcryptjs'
 import bluebird from 'bluebird'
-import db from '../models/index.js'
+import db from '../models/index'
 const salt = bcrypt.genSaltSync(10)
 
 // Create the connection to database
