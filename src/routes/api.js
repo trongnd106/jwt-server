@@ -1,6 +1,7 @@
 import express from "express"
 import * as apiController from "../controller/apiController.js"
 import userController from "../controller/userController.js"
+import groupController from "../controller/groupController.js"
 
 const router = express.Router()
 
@@ -19,6 +20,8 @@ const initApiRoute = (app) => {
     router.post('/user/create', userController.createFunc)
     router.put('/user/update', userController.updateFunc)
     router.delete('/user/delete', userController.deleteFunc)
+
+    router.get('/group/read', groupController.readFunc)
 
     return app.use("/api/v1", router)
 }
