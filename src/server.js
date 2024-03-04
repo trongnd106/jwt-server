@@ -6,6 +6,8 @@ require("dotenv").config()
 import bodyParser from "body-parser"
 import connection from "./config/connectDB"
 import configCors from "./config/cors"
+// import { verify } from "jsonwebtoken"
+
 
 const app = express()
 
@@ -29,6 +31,11 @@ initWebRoute(app)
 
 // init web routes
 initApiRoute(app)
+
+
+app.use((req,res) => {
+    res.send('404 not found')
+})
 
 app.listen(PORT, () => {
     console.log(">>> JWT Backend is running on the port = ", PORT)

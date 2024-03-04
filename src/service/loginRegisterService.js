@@ -1,7 +1,10 @@
+require('dotenv').config()
 import db from '../models/index'
 import bcrypt from 'bcryptjs'
 const salt = bcrypt.genSaltSync(10)
 import { Op } from 'sequelize'
+import { getGroupWithRoles } from '../service/JWTService'
+import { createJWT } from '../middleware/JWTAction'
 
 const checkEmailExist = async (userEmail) => {
     let user  = await db.User.findOne({
@@ -54,7 +57,8 @@ const registerNewUser = async (rawUserData) => {
             email: rawUserData.email,
             phone: rawUserData.phone,
             password: hashPassword,
-            username: rawUserData.username
+            username: rawUserData.username,
+            groupId: 4
         })
         return{
             EM: 'A user is created successfully',
@@ -90,10 +94,22 @@ const handleUserLogin = async (rawData) => {
         if(user){
             let isCorrectPassword = checkPassword(rawData.password, user.password)
             if(isCorrectPassword === true){
+                let groupWithRoles = await getGroupWithRoles();
+                let payload = {
+                    email: user.email,
+                    groupWithRoles,
+                    expiresIn: process.env.JWT_EXPIRES_IN // time limit exist of token
+                }
+                let token = createJWT(payload);     //encoded 
+                // test postman: htts://localhost:8080/api/v1/login
                 return {
                     EM: 'ok!',
                     EC: 0,
-                    DT: ''
+                    DT: {
+                        // return for user'use in next login
+                        access_token: token,
+                        groupWithRoles
+                    }
                 }
             }
         } 
@@ -114,5 +130,5 @@ const handleUserLogin = async (rawData) => {
 }
 
 module.exports = {
-    registerNewUser, handleUserLogin
+    registerNewUser, handleUserLogin, hashUserPassword, checkEmailExist, checkPhoneExist
 }
