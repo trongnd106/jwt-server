@@ -6,6 +6,7 @@ require("dotenv").config()
 import bodyParser from "body-parser"
 import connection from "./config/connectDB"
 import configCors from "./config/cors"
+import cookieParser from "cookie-parser"
 // import { verify } from "jsonwebtoken"
 
 
@@ -25,6 +26,9 @@ app.use(bodyParser.urlencoded({ extended: true }))
 
 // check DBconnection
 connection()
+
+// config cookie-parser
+app.use(cookieParser())
 
 // init web routes
 initWebRoute(app)

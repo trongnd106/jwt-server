@@ -13,7 +13,7 @@ const readFunc = async (req,res) => {
         return res.status(500).json({
             EM: 'error from sever',  
             EC: '-1',
-            data: ''
+            DT: ''
         })
     }
 }

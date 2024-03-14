@@ -91,24 +91,28 @@ const handleUserLogin = async (rawData) => {
         })
         // console.log(">>> check user js object: ", user.get({ plain: true }))
         // console.log(">>> check user sequelize object: ", user)
+        
         if(user){
             let isCorrectPassword = checkPassword(rawData.password, user.password)
             if(isCorrectPassword === true){
-                let groupWithRoles = await getGroupWithRoles();
+                let groupWithRoles = await getGroupWithRoles(user);
                 let payload = {
                     email: user.email,
+                    username: user.username,
                     groupWithRoles,
                     expiresIn: process.env.JWT_EXPIRES_IN // time limit exist of token
                 }
                 let token = createJWT(payload);     //encoded 
-                // test postman: htts://localhost:8080/api/v1/login
+                // test: htts://localhost:8080/api/v1/login
                 return {
                     EM: 'ok!',
                     EC: 0,
                     DT: {
                         // return for user'use in next login
                         access_token: token,
-                        groupWithRoles
+                        groupWithRoles,
+                        email: user.email,
+                        username: user.username
                     }
                 }
             }

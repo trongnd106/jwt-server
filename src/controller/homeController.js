@@ -5,6 +5,10 @@ const handleCheck = (req, res) => {
 }
 
 const handleUserPage = async (req, res) => {
+    // Cookies that have not been signed
+    // console.log('Cookies: ', req.cookies)
+    // res.cookie(key, value, [options]) in express 
+   
     let userList = await userService.getUserList()
     // console.log(">>>check userList: ", userList)
     res.render('user.ejs', {userList})

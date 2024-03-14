@@ -43,7 +43,7 @@ const createFunc = async (req, res) => {
         return res.status(500).json({
             EM: 'error from sever',  
             EC: '-1',
-            data: ''
+            DT: ''
         })
     }
 }
@@ -62,7 +62,7 @@ const updateFunc = async (req, res) => {
         return res.status(500).json({
             EM: 'error from sever',  
             EC: '-1',
-            data: ''
+            DT: ''
         })
     }
 }
@@ -80,11 +80,27 @@ const deleteFunc = async (req, res) => {
         return res.status(500).json({
             EM: 'error from sever',  
             EC: '-1',
-            data: ''
+            DT: ''
         })
     }
 }
 
+const getUserAccount = async (req, res) => {
+    // return res.status(200).json({
+    //     EM: 'ok',  
+    //     EC: 0,    // error code
+    //     DT: {
+    //         // return for user'use in next login
+    //         access_token: req.token,
+    //         groupWithRoles: req.user.groupWithRoles,
+    //         email: req.user.email,
+    //         username: req.user.username
+    //     }
+    // })
+    console.log(">>> check req: ", req.user)
+}
+
+
 module.exports = {
-    readFunc, createFunc, updateFunc, deleteFunc
+    readFunc, createFunc, updateFunc, deleteFunc, getUserAccount
 }
